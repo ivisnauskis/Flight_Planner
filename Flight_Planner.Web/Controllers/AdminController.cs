@@ -1,28 +1,28 @@
 ﻿using System.Web.Http;
 using Flight_Planner.Core.Models;
-using Flight_Planner.Data;
-using Flight_Planner.Services;
+using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Attributes;
 
 namespace Flight_Planner.Web.Controllers
 {
     [BasicAuthentication]
-    public class AdminController : ApiController
+    public class AdminController : BaseController
     {
+        public AdminController(IFlightService flightService) : base(flightService)
+        {
+        }
+
         [HttpGet]
         [Route("admin-api/flights/")]
         public IHttpActionResult Get()
         {
-            var a = new FlightService(new FlightPlannerDbContext());
-            var b = a.Get();
-            return Ok(b);
+            return Ok(FlightService.Get());
         }
 
         [HttpGet]
         [Route("admin-api/flights/{Id}")]
         public IHttpActionResult Get(int id)
         {
-            
             return Ok();
         }
 
@@ -30,8 +30,6 @@ namespace Flight_Planner.Web.Controllers
         [Route("admin-api/flights/")]
         public IHttpActionResult Put(Flight flightRequest)
         {
-            var a = new FlightService(new FlightPlannerDbContext());
-            a.Create(flightRequest);
             return Ok();
         }
 

@@ -1,10 +1,15 @@
 using System.Web.Http;
+using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Controllers
 {
     [Route("api")]
-    public class CustomerController : ApiController
+    public class CustomerController : BaseController
     {
+        public CustomerController(IFlightService flightService) : base(flightService)
+        {
+        }
+
         [HttpGet]
         [Route("api/airports")]
         public IHttpActionResult Get(string search)
