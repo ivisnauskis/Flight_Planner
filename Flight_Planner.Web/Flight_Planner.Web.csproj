@@ -194,6 +194,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AirportRequest.cs" />
+    <Compile Include="Models\AirportResponse.cs" />
+    <Compile Include="Models\FlightRequest.cs" />
+    <Compile Include="Models\FlightResponse.cs" />
+    <Compile Include="Models\FlightSearchRequest.cs" />
+    <Compile Include="Models\FlightSearchResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -249,7 +255,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
