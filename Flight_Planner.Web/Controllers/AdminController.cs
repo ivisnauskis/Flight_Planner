@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Attributes;
@@ -10,7 +11,7 @@ namespace Flight_Planner.Web.Controllers
     [BasicAuthentication]
     public class AdminController : BaseController
     {
-        public AdminController(IFlightService flightService) : base(flightService)
+        public AdminController(IFlightService flightService, IMapper mapper) : base(flightService, mapper)
         {
         }
 

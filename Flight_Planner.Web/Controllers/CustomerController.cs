@@ -1,4 +1,5 @@
 using System.Web.Http;
+using AutoMapper;
 using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Controllers
@@ -6,7 +7,7 @@ namespace Flight_Planner.Web.Controllers
     [Route("api")]
     public class CustomerController : BaseController
     {
-        public CustomerController(IFlightService flightService) : base(flightService)
+        public CustomerController(IFlightService flightService, IMapper mapper) : base(flightService, mapper)
         {
         }
 

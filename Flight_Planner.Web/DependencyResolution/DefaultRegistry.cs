@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AutoMapper;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Data;
 using Flight_Planner.Services;
@@ -41,6 +42,7 @@ namespace Flight_Planner.Web.DependencyResolution
             For<IDbService>().Use<DbService>();
             For(typeof(IEntityService<>)).Use(typeof(EntityService<>));
             For<IFlightService>().Use<FlightService>();
+            For<IMapper>().Use(AutoMapperConfig.GetMapper()).Singleton();
         }
 
         #endregion
