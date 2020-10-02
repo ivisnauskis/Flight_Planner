@@ -42,7 +42,7 @@ namespace Flight_Planner.Services
         {
             if (entity == null)
             {
-                throw new ArgumentException(nameof(entity));
+                throw new ArgumentNullException(nameof(entity));
             }
 
             Ctx.Set<T>().Add(entity);
@@ -54,7 +54,7 @@ namespace Flight_Planner.Services
         {
             if (entity == null)
             {
-                throw new ArgumentException(nameof(entity));
+                throw new ArgumentNullException(nameof(entity));
             }
 
             Ctx.Set<T>().Remove(entity);
@@ -66,7 +66,7 @@ namespace Flight_Planner.Services
         {
             if (entity == null)
             {
-                throw new ArgumentException(nameof(entity));
+                throw new ArgumentNullException(nameof(entity));
             }
 
             Ctx.Entry(entity).State = EntityState.Modified;
