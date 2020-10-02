@@ -7,8 +7,11 @@ namespace Flight_Planner.Web.Controllers
     [Route("api")]
     public class CustomerController : BaseController
     {
-        public CustomerController(IFlightService flightService, IMapper mapper) : base(flightService, mapper)
+        private readonly IAirportService _airportService;
+
+        public CustomerController(IFlightService flightService, IMapper mapper, IAirportService airportService) : base(flightService, mapper)
         {
+            _airportService = airportService;
         }
 
         [HttpGet]

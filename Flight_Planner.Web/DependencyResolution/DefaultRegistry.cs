@@ -42,6 +42,8 @@ namespace Flight_Planner.Web.DependencyResolution
             For<IDbService>().Use<DbService>();
             For(typeof(IEntityService<>)).Use(typeof(EntityService<>));
             For<IFlightService>().Use<FlightService>();
+            For<IAirportService>().Use<AirportService>();
+
             For<IMapper>().Use(AutoMapperConfig.GetMapper()).Singleton();
         }
 
