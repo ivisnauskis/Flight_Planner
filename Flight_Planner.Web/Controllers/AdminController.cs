@@ -30,7 +30,7 @@ namespace Flight_Planner.Web.Controllers
         {
             var flight = await FlightService.GetById(id);
             if (flight == null) return NotFound();
-            return Ok();
+            return Ok(flight);
         }
 
         [HttpPut]

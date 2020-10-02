@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using AutoMapper;
+using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Controllers
@@ -13,6 +14,11 @@ namespace Flight_Planner.Web.Controllers
         {
             FlightService = flightService;
             Mapper = mapper;
+        }
+
+        protected AirportDto Map(Airport airport)
+        {
+            return AutoMapperConfig.GetMapper().Map<AirportDto>(airport);
         }
     }
 }
