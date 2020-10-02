@@ -256,6 +256,20 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flight_Planner.Core\Flight_Planner.Core.csproj">
+      <Project>{2C76DA7C-802B-43AF-BC12-8072C49DCD16}</Project>
+      <Name>Flight_Planner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flight_Planner.Data\Flight_Planner.Data.csproj">
+      <Project>{F4602940-8D0E-4670-B2D4-22B0FDD833A7}</Project>
+      <Name>Flight_Planner.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flight_Planner.Services\Flight_Planner.Services.csproj">
+      <Project>{546B0CD6-A3E0-44FE-A6C3-DF297F6F4E59}</Project>
+      <Name>Flight_Planner.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,4 +1,7 @@
 ﻿using System.Web.Http;
+using Flight_Planner.Core.Models;
+using Flight_Planner.Data;
+using Flight_Planner.Services;
 using Flight_Planner.Web.Attributes;
 
 namespace Flight_Planner.Web.Controllers
@@ -10,20 +13,25 @@ namespace Flight_Planner.Web.Controllers
         [Route("admin-api/flights/")]
         public IHttpActionResult Get()
         {
-            return Ok();
+            var a = new FlightService(new FlightPlannerDbContext());
+            var b = a.Get();
+            return Ok(b);
         }
 
         [HttpGet]
         [Route("admin-api/flights/{Id}")]
         public IHttpActionResult Get(int id)
         {
+            
             return Ok();
         }
 
         [HttpPut]
         [Route("admin-api/flights/")]
-        public IHttpActionResult Put(object flightRequest)
+        public IHttpActionResult Put(Flight flightRequest)
         {
+            var a = new FlightService(new FlightPlannerDbContext());
+            a.Create(flightRequest);
             return Ok();
         }
 
