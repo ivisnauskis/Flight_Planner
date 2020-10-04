@@ -6,10 +6,12 @@ namespace Flight_Planner.Core.Services
 {
     public interface IFlightService : IEntityService<Flight>
     {
-        IEnumerable<Flight> GetFlights();
+        Task<IEnumerable<Flight>> GetFlights();
 
-        ServiceResult AddFlight(Flight flight);
+        Task<ServiceResult> AddFlight(Flight flight);
 
         Task<ServiceResult> DeleteFlight(int id);
+
+        Task<IEnumerable<Flight>> SearchFlights(string from, string to, string departureDate);
     }
 }
