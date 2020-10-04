@@ -20,10 +20,9 @@ namespace Flight_Planner.Web.Controllers
 
         [HttpGet]
         [Route("admin-api/flights/")]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var flights = FlightService.GetFlights().ToList();
-            if (flights.Count == 0) return NotFound();
+            var flights = await FlightService.GetFlights();
             return Ok(flights.Select(f => Mapper.Map<FlightResponse>(f)).ToList());
         }
 
@@ -39,14 +38,16 @@ namespace Flight_Planner.Web.Controllers
 
         [HttpPut]
         [Route("admin-api/flights/")]
-        public IHttpActionResult Put(FlightRequest flightRequest)
+        public async Task<IHttpActionResult> Put(FlightRequest flightRequest)
         {
             if (!IsAddFlightRequestValid(flightRequest)) return BadRequest();
 
-            var response = FlightService.AddFlight(Mapper.Map<Flight>(flightRequest));
+            var response = await FlightService.AddFlight(Mapper.Map<Flight>(flightRequest));
 
-            if (response.Succeeded) return Created($"{Request.RequestUri}{response.Entity.Id}", Mapper.Map<FlightResponse>(response.Entity));
-            
+            if (response.Succeeded)
+                return Created($"{Request.RequestUri}/{response.Entity.Id}",
+                    Mapper.Map<FlightResponse>(response.Entity));
+
             return Conflict();
         }
 
@@ -58,7 +59,7 @@ namespace Flight_Planner.Web.Controllers
             return Ok();
         }
 
-        public bool IsAddFlightRequestValid(FlightRequest flightRequest)
+        private static bool IsAddFlightRequestValid(FlightRequest flightRequest)
         {
             return IsFlightInfoValid(flightRequest) &&
                    IsAirportValid(flightRequest.From) &&
@@ -66,22 +67,12 @@ namespace Flight_Planner.Web.Controllers
                    !IsSameAirports(flightRequest.From, flightRequest.To);
         }
 
-        // public bool IsSearchRequestValid(SearchFlightRequest req)
-        // {
-        //     return req != null &&
-        //            req.To != null &&
-        //            req.From != null &&
-        //            req.DepartureDate != null &&
-        //            DateTime.TryParse(req.DepartureDate, out _) &&
-        //            !req.From.Equals(req.To);
-        // }
-
-        private bool IsSameAirports(AirportRequest from, AirportRequest to)
+        private static bool IsSameAirports(AirportRequest from, AirportRequest to)
         {
             return string.Equals(from.Airport.Trim(), to.Airport.Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool IsFlightInfoValid(FlightRequest flightRequest)
+        private static bool IsFlightInfoValid(FlightRequest flightRequest)
         {
             return flightRequest != null &&
                    flightRequest.To != null &&
@@ -90,7 +81,7 @@ namespace Flight_Planner.Web.Controllers
                    IsDatesValid(flightRequest.ArrivalTime, flightRequest.DepartureTime);
         }
 
-        private bool IsDatesValid(string arrivalTime, string departureTime)
+        private static bool IsDatesValid(string arrivalTime, string departureTime)
         {
             if (departureTime.IsEmpty() || arrivalTime.IsEmpty())
                 return false;
@@ -101,7 +92,7 @@ namespace Flight_Planner.Web.Controllers
             return arrTime > depTime;
         }
 
-        private bool IsAirportValid(AirportRequest airport)
+        private static bool IsAirportValid(AirportRequest airport)
         {
             return airport != null && !airport.Airport.IsEmpty() && !airport.City.IsEmpty() &&
                    !airport.Country.IsEmpty();
