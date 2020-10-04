@@ -15,10 +15,5 @@ namespace Flight_Planner.Web.Controllers
             FlightService = flightService;
             Mapper = mapper;
         }
-
-        protected AirportDto Map(Airport airport)
-        {
-            return AutoMapperConfig.GetMapper().Map<AirportDto>(airport);
-        }
     }
 }
