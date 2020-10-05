@@ -7,8 +7,6 @@ namespace Flight_Planner.Core.Models
     {
         public string Country { get; set; }
         public string City { get; set; }
-
-        [JsonProperty(PropertyName = "airport")]
         public string AirportCode { get; set; }
 
         protected bool Equals(Airport other)

@@ -13,17 +13,17 @@ namespace Flight_Planner.Web.Controllers
     {
         private readonly IAirportService _airportService;
 
-        public CustomerController(IFlightService flightService, IMapper mapper, IAirportService airportService) : base(
-            flightService, mapper)
+        public CustomerController(IFlightService flightService, IMapper mapper, IAirportService airportService) : 
+            base(flightService, mapper)
         {
             _airportService = airportService;
         }
 
         [HttpGet]
         [Route("api/airports")]
-        public IHttpActionResult Get(string search)
+        public async Task<IHttpActionResult> Get(string search)
         {
-            var foundAirports = _airportService.SearchAirports(search);
+            var foundAirports = await _airportService.SearchAirports(search);
             return Ok(foundAirports.Select(a => Mapper.Map<AirportResponse>(a)));
         }
 

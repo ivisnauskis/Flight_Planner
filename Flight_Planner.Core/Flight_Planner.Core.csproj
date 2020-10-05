@@ -53,6 +53,7 @@
     <Compile Include="Services\IDbService.cs" />
     <Compile Include="Services\IEntityService.cs" />
     <Compile Include="Services\IFlightService.cs" />
+    <Compile Include="Services\ITestingService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
   </ItemGroup>
   <ItemGroup>

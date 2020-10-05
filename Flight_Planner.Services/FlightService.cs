@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,8 +11,6 @@ namespace Flight_Planner.Services
 {
     public class FlightService : EntityService<Flight>, IFlightService
     {
-        private static readonly object Lock = new object();
-
         public FlightService(IFlightPlannerDbContext ctx) : base(ctx)
         {
         }
@@ -23,7 +22,8 @@ namespace Flight_Planner.Services
 
         public async Task<ServiceResult> AddFlight(Flight flight)
         {
-            if (await Exists(flight)) return new ServiceResult(false) { Errors = new List<string>() { "Flight must be unique!"}};
+            if (await Exists(flight)) 
+                return new ServiceResult(false) { Errors = new List<string>() { "Flight must be unique!"}};
             
             return Create(flight);
         }
