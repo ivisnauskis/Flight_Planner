@@ -1,29 +1,23 @@
+using System.Threading.Tasks;
 using System.Web.Http;
-using AutoMapper;
 using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Controllers
 {
-    public class TestingController : BaseController
+    public class TestingController : ApiController
     {
-        private readonly IAirportService _airportService;
+        private readonly ITestingService _testingService;
 
-        public TestingController(IFlightService flightService, IMapper mapper, IAirportService airportService) : base(
-            flightService, mapper)
+        public TestingController(ITestingService testingService)
         {
-            _airportService = airportService;
+            _testingService = testingService;
         }
 
         [HttpPost]
         [Route("testing-api/clear")]
-        public IHttpActionResult Clear()
+        public async Task<IHttpActionResult> Clear()
         {
-            var a = FlightService.Get();
-            var b = _airportService.Get();
-
-            foreach (var flight in a) FlightService.Delete(flight);
-            foreach (var airport in b) _airportService.Delete(airport);
-
+            await _testingService.Clear();
             return Ok();
         }
     }

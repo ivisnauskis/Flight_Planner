@@ -56,6 +56,7 @@
     <Compile Include="EntityService.cs" />
     <Compile Include="FlightService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flight_Planner.Core\Flight_Planner.Core.csproj">
