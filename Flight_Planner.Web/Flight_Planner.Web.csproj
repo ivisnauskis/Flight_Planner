@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Models\AirportRequest.cs" />
     <Compile Include="Models\AirportResponse.cs" />
+    <Compile Include="Models\BadRequest.cs" />
     <Compile Include="Models\FlightRequest.cs" />
     <Compile Include="Models\FlightResponse.cs" />
     <Compile Include="Models\FlightSearchRequest.cs" />

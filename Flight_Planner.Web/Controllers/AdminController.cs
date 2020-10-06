@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.WebPages;
 using AutoMapper;
 using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Attributes;
 using Flight_Planner.Web.Models;
+using Newtonsoft.Json;
 
 namespace Flight_Planner.Web.Controllers
 {
@@ -40,15 +40,20 @@ namespace Flight_Planner.Web.Controllers
         [Route("admin-api/flights/")]
         public async Task<IHttpActionResult> Put(FlightRequest flightRequest)
         {
-            if (!IsAddFlightRequestValid(flightRequest)) return BadRequest();
+            var flight = Mapper.Map<Flight>(flightRequest);
 
-            var response = await FlightService.AddFlight(Mapper.Map<Flight>(flightRequest));
+            if (await FlightService.Exists(flight)) return Conflict();
+
+            var response = await FlightService.AddFlight(flight);
 
             if (response.Succeeded)
-                return Created($"{Request.RequestUri}/{response.Entity.Id}",
-                    Mapper.Map<FlightResponse>(response.Entity));
+            {
+                var flightUrl = $"{Request.RequestUri}/{response.Entity.Id}";
+                var flightResponse = Mapper.Map<FlightResponse>(response.Entity);
+                return Created(flightUrl, flightResponse);
+            }
 
-            return Conflict();
+            return new BadRequest(response.Errors.ToList(), Request);
         }
 
         [HttpDelete]
@@ -57,45 +62,6 @@ namespace Flight_Planner.Web.Controllers
         {
             await FlightService.DeleteFlight(id);
             return Ok();
-        }
-
-        private static bool IsAddFlightRequestValid(FlightRequest flightRequest)
-        {
-            return IsFlightInfoValid(flightRequest) &&
-                   IsAirportValid(flightRequest.From) &&
-                   IsAirportValid(flightRequest.To) &&
-                   !IsSameAirports(flightRequest.From, flightRequest.To);
-        }
-
-        private static bool IsSameAirports(AirportRequest from, AirportRequest to)
-        {
-            return string.Equals(from.Airport.Trim(), to.Airport.Trim(), StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool IsFlightInfoValid(FlightRequest flightRequest)
-        {
-            return flightRequest != null &&
-                   flightRequest.To != null &&
-                   flightRequest.From != null &&
-                   !flightRequest.Carrier.IsEmpty() &&
-                   IsDatesValid(flightRequest.ArrivalTime, flightRequest.DepartureTime);
-        }
-
-        private static bool IsDatesValid(string arrivalTime, string departureTime)
-        {
-            if (departureTime.IsEmpty() || arrivalTime.IsEmpty())
-                return false;
-
-            var arrTime = DateTime.Parse(arrivalTime);
-            var depTime = DateTime.Parse(departureTime);
-
-            return arrTime > depTime;
-        }
-
-        private static bool IsAirportValid(AirportRequest airport)
-        {
-            return airport != null && !airport.Airport.IsEmpty() && !airport.City.IsEmpty() &&
-                   !airport.Country.IsEmpty();
         }
     }
 }

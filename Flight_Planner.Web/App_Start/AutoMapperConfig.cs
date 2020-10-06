@@ -16,7 +16,7 @@ namespace Flight_Planner.Web
 
                 cfg.CreateMap<AirportRequest, Airport>()
                     .ForMember(d => d.AirportCode,
-                        s => s.MapFrom(p => p.Airport))
+                        s => s.MapFrom(p => p.Airport.Trim()))
                     .ForMember(d => d.Id,
                         s => s.Ignore());
 

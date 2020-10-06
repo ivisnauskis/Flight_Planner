@@ -15,10 +15,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using AutoMapper;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Data;
 using Flight_Planner.Services;
+using Flight_Planner.Services.Validator;
+using Flight_Planner.Services.Validator.ValidationRules;
 using StructureMap;
 
 namespace Flight_Planner.Web.DependencyResolution
@@ -39,11 +42,22 @@ namespace Flight_Planner.Web.DependencyResolution
 
             //For<IExample>().Use<Example>();
             For<IFlightPlannerDbContext>().Use<FlightPlannerDbContext>().Transient();
+
             For<IDbService>().Use<DbService>();
             For(typeof(IEntityService<>)).Use(typeof(EntityService<>));
             For<IFlightService>().Use<FlightService>();
             For<IAirportService>().Use<AirportService>();
             For<ITestingService>().Use<TestingService>();
+
+            For<IValidationService>().Use<FlightValidationService>();
+            For<IValidationRule>().Add<AirportCityValidationRule>();
+            For<IValidationRule>().Add<AirportCodeValidationRule>();
+            For<IValidationRule>().Add<AirportCountryValidationRule>();
+            For<IValidationRule>().Add<CarrierValidationRule>();
+            For<IValidationRule>().Add<DateTimeFormatValidationRule>();
+            For<IValidationRule>().Add<SameAirportValidationRule>();
+            For<IValidationRule>().Add<TimeFrameValidationRule>();
+            For<IEnumerable<IValidationRule>>().Use(x => x.GetAllInstances<IValidationRule>());
 
             For<IMapper>().Use(AutoMapperConfig.GetMapper()).Singleton();
         }
