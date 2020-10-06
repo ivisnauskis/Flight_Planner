@@ -66,7 +66,7 @@
     <Compile Include="Validator\FlightValidationService.cs" />
     <Compile Include="Validator\IValidationService.cs" />
     <Compile Include="Validator\ValidationResponse.cs" />
-    <Compile Include="Validator\ValidationRule.cs" />
+    <Compile Include="Validator\IValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCityValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCodeValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCountryValidationRule.cs" />
