@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using Flight_Planner.Core.Models;
+using Flight_Planner.Services.Validator.Interfaces;
 
 namespace Flight_Planner.Services.Validator
 {
-    public class FlightValidationService : IValidationService
+    public class FlightValidator : IFlightValidator
     {
         private readonly IEnumerable<IValidationRule> _rules;
 
-        public FlightValidationService(IEnumerable<IValidationRule> rules)
+        public FlightValidator(IEnumerable<IValidationRule> rules)
         {
             _rules = rules;
         }
-
 
         public ValidationResponse ValidateFlight(Flight flight)
         {

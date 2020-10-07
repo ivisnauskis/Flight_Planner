@@ -63,10 +63,14 @@
     <Compile Include="FlightService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestingService.cs" />
-    <Compile Include="Validator\FlightValidationService.cs" />
-    <Compile Include="Validator\IValidationService.cs" />
+    <Compile Include="Validator\FlightValidator.cs" />
+    <Compile Include="Validator\FlightSearchRequestValidator.cs" />
+    <Compile Include="Validator\Interfaces\IFlightSearchRequestValidator.cs" />
+    <Compile Include="Validator\Interfaces\IFlightValidator.cs" />
+    <Compile Include="Validator\ValidationService.cs" />
+    <Compile Include="Validator\Interfaces\IValidationService.cs" />
     <Compile Include="Validator\ValidationResponse.cs" />
-    <Compile Include="Validator\IValidationRule.cs" />
+    <Compile Include="Validator\Interfaces\IValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCityValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCodeValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\AirportCountryValidationRule.cs" />
@@ -74,7 +78,6 @@
     <Compile Include="Validator\ValidationRules\DateTimeFormatValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\SameAirportValidationRule.cs" />
     <Compile Include="Validator\ValidationRules\TimeFrameValidationRule.cs" />
-    <Compile Include="Validator\ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flight_Planner.Core\Flight_Planner.Core.csproj">

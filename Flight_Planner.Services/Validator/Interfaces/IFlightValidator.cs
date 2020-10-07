@@ -1,8 +1,8 @@
 ﻿using Flight_Planner.Core.Models;
 
-namespace Flight_Planner.Services.Validator
+namespace Flight_Planner.Services.Validator.Interfaces
 {
-    public interface IValidationService
+    public interface IFlightValidator
     {
         ValidationResponse ValidateFlight(Flight flight);
     }

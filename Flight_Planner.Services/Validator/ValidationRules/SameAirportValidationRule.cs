@@ -1,5 +1,6 @@
 ﻿using System;
 using Flight_Planner.Core.Models;
+using Flight_Planner.Services.Validator.Interfaces;
 
 namespace Flight_Planner.Services.Validator.ValidationRules
 {

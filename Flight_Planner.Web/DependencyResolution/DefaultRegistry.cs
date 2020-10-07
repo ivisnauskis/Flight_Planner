@@ -21,6 +21,7 @@ using Flight_Planner.Core.Services;
 using Flight_Planner.Data;
 using Flight_Planner.Services;
 using Flight_Planner.Services.Validator;
+using Flight_Planner.Services.Validator.Interfaces;
 using Flight_Planner.Services.Validator.ValidationRules;
 using StructureMap;
 
@@ -49,7 +50,7 @@ namespace Flight_Planner.Web.DependencyResolution
             For<IAirportService>().Use<AirportService>();
             For<ITestingService>().Use<TestingService>();
 
-            For<IValidationService>().Use<FlightValidationService>();
+            For<IValidationService>().Use<ValidationService>();
             For<IValidationRule>().Add<AirportCityValidationRule>();
             For<IValidationRule>().Add<AirportCodeValidationRule>();
             For<IValidationRule>().Add<AirportCountryValidationRule>();
@@ -58,6 +59,8 @@ namespace Flight_Planner.Web.DependencyResolution
             For<IValidationRule>().Add<SameAirportValidationRule>();
             For<IValidationRule>().Add<TimeFrameValidationRule>();
             For<IEnumerable<IValidationRule>>().Use(x => x.GetAllInstances<IValidationRule>());
+            For<IFlightValidator>().Use<FlightValidator>();
+            For<IFlightSearchRequestValidator>().Use<FlightSearchRequestValidator>();
 
             For<IMapper>().Use(AutoMapperConfig.GetMapper()).Singleton();
         }
