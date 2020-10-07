@@ -12,7 +12,7 @@ namespace Flight_Planner.Core.Services
 
         Task<ServiceResult> DeleteFlight(int id);
 
-        Task<IEnumerable<Flight>> SearchFlights(string from, string to, string departureDate);
+        Task<FlightServiceSearchResponse> SearchFlights(FlightServiceSearchRequest request);
 
         Task<bool> Exists(Flight flight);
     }

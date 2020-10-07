@@ -1,67 +1,63 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
+using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Models;
 
 namespace Flight_Planner.Web.Controllers
 {
-    [Route("api")]
     public class CustomerController : BaseController
     {
         private readonly IAirportService _airportService;
 
-        public CustomerController(IFlightService flightService, IMapper mapper, IAirportService airportService) : 
+        public CustomerController(IFlightService flightService, IMapper mapper, IAirportService airportService) :
             base(flightService, mapper)
         {
             _airportService = airportService;
         }
 
-        [HttpGet]
-        [Route("api/airports")]
+
+        [HttpGet, Route("api/airports")]
         public async Task<IHttpActionResult> Get(string search)
         {
             var foundAirports = await _airportService.SearchAirports(search);
             return Ok(foundAirports.Select(a => Mapper.Map<AirportResponse>(a)));
         }
 
-        [HttpPost]
-        [Route("api/flights/search")]
+        [HttpPost, Route("api/flights/search")]
         public async Task<IHttpActionResult> GetFlights(FlightSearchRequest req)
         {
-            if (!IsSearchRequestValid(req)) return BadRequest();
+            var response = await FlightService.SearchFlights(Mapper.Map<FlightServiceSearchRequest>(req));
 
-            var flights = await FlightService.SearchFlights(req.From.Trim(), req.To.Trim(), req.DepartureDate.Trim());
+            if (response.Succeeded)
+                return Ok(GetSearchResponse(response.FoundFlights));
 
-            var response = new FlightSearchResponse
+            return new BadRequest(response.Errors, Request);
+        }
+
+        
+        [HttpGet, Route("api/flights/{id}")]
+        public async Task<IHttpActionResult> Get(int id)
+        {
+            var flight = await FlightService.GetById(id);
+
+            if (flight == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<FlightResponse>(flight));
+        }
+
+        private FlightSearchResponse GetSearchResponse(IEnumerable<Flight> flights)
+        {
+            return new FlightSearchResponse
             {
                 Page = flights.Any() ? 1 : 0,
                 Items = flights.Select(f => Mapper.Map<FlightResponse>(f)),
                 TotalItems = flights.Count()
             };
-
-            return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("api/flights/{id}")]
-        public async Task<IHttpActionResult> Get(int id)
-        {
-            var flight = await FlightService.GetById(id);
-            if (flight == null) return NotFound();
-            return Ok(Mapper.Map<FlightResponse>(flight));
-        }
-
-        private bool IsSearchRequestValid(FlightSearchRequest req)
-        {
-            return req != null &&
-                   req.To != null &&
-                   req.From != null &&
-                   req.DepartureDate != null &&
-                   DateTime.TryParse(req.DepartureDate, out _) &&
-                   !req.From.Equals(req.To);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Flight_Planner.Core.Models;
+using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Models;
 
 
@@ -24,6 +25,11 @@ namespace Flight_Planner.Web
                     .ForMember(m => m.Airport,
                         opt =>
                             opt.MapFrom(s => s.AirportCode));
+                cfg.CreateMap<FlightSearchRequest, FlightServiceSearchRequest>()
+                    .ForMember(a => a.To, b => b.MapFrom(c => c.To.Trim()))
+                    .ForMember(a => a.From, b => b.MapFrom(c => c.From.Trim()))
+                    .ForMember(a => a.DepartureDate, b => b.MapFrom(c => c.DepartureDate.Trim()));
+
             });
             config.AssertConfigurationIsValid();
             var mapper = config.CreateMapper();
