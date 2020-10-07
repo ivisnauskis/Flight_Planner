@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
@@ -7,7 +6,6 @@ using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Web.Attributes;
 using Flight_Planner.Web.Models;
-using Newtonsoft.Json;
 
 namespace Flight_Planner.Web.Controllers
 {
@@ -31,7 +29,8 @@ namespace Flight_Planner.Web.Controllers
         public async Task<IHttpActionResult> Get(int id)
         {
             var flight = await FlightService.GetById(id);
-            if (flight == null) return NotFound();
+            if (flight == null) 
+                return NotFound();
 
             return Ok(Mapper.Map<FlightResponse>(flight));
         }
@@ -42,7 +41,8 @@ namespace Flight_Planner.Web.Controllers
         {
             var flight = Mapper.Map<Flight>(flightRequest);
 
-            if (await FlightService.Exists(flight)) return Conflict();
+            if (await FlightService.Exists(flight)) 
+                return Conflict();
 
             var response = await FlightService.AddFlight(flight);
 
@@ -53,12 +53,12 @@ namespace Flight_Planner.Web.Controllers
                 return Created(flightUrl, flightResponse);
             }
 
-            return new BadRequest(response.Errors.ToList(), Request);
+            return new BadRequest(response.Errors, Request);
         }
 
         [HttpDelete]
         [Route("admin-api/flights/{Id}")]
-        public async Task<IHttpActionResult> DeleteFlights(int id)
+        public async Task<IHttpActionResult> DeleteFlight(int id)
         {
             await FlightService.DeleteFlight(id);
             return Ok();

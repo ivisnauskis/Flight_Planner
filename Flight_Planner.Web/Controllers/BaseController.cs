@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using AutoMapper;
-using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Controllers

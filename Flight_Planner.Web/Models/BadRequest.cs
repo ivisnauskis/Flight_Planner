@@ -4,19 +4,21 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Flight_Planner.Core.Services;
 
 namespace Flight_Planner.Web.Models
 {
     public class BadRequest : IHttpActionResult
     {
-        public List<string> Messages { get; private set; }
+        public IEnumerable<string> Errors { get; private set; }
         public HttpRequestMessage Request { get; private set; }
 
-        public BadRequest(List<string> messages, HttpRequestMessage request)
+        public BadRequest(IEnumerable<string> errors, HttpRequestMessage request)
         {
-            Messages = messages;
+            Errors = errors;
             Request = request;
         }
+
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -25,7 +27,7 @@ namespace Flight_Planner.Web.Models
 
         public HttpResponseMessage Execute()
         {
-            return Request.CreateResponse(HttpStatusCode.BadRequest, Messages);
+            return Request.CreateResponse(HttpStatusCode.BadRequest, Errors);
         }
     }
 }

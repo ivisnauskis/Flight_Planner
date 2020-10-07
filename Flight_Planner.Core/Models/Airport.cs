@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 
 namespace Flight_Planner.Core.Models
 {

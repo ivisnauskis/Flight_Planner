@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Flight_Planner.Core.Services;
 using Flight_Planner.Data;
 
