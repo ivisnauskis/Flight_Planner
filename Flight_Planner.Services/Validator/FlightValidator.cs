@@ -17,16 +17,14 @@ namespace Flight_Planner.Services.Validator
         {
             var errors = new List<string>();
 
-            if (flight == null)
-            {
-                errors.Add("Flight cannot be null.");
-                return new ValidationResponse(false).Set(errors);
-            }
-
             foreach (var validationRule in _rules)
+            {
                 if (!validationRule.IsValid(flight))
+                {
                     errors.Add(validationRule.ErrorMessage);
-
+                }
+            }
+            
             return errors.Count > 0 ? new ValidationResponse(false).Set(errors) : new ValidationResponse(true);
         }
     }

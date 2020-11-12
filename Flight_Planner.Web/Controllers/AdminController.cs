@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using AutoMapper;
 using Flight_Planner.Core.Models;
 using Flight_Planner.Core.Services;
@@ -10,6 +11,7 @@ using Flight_Planner.Web.Models;
 namespace Flight_Planner.Web.Controllers
 {
     [BasicAuthentication]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AdminController : BaseController
     {
         public AdminController(IFlightService flightService, IMapper mapper) : base(flightService, mapper)
